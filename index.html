@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualización de Datos - ManpowerGroup</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f7f6; padding: 15px; color: #333; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+
+        .header-bar {
+            background: linear-gradient(90deg, #102a43 0%, #1f4068 50%, #8b0000 100%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+            margin-bottom: 20px;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 4px;
+            align-items: flex-end;
+            height: 22px;
+            flex-shrink: 0;
+        }
+        .header-icons span {
+            display: block;
+            width: 5px;
+            border-radius: 2px;
+        }
+        .bar-1 { background: #38bdf8; height: 12px; }
+        .bar-2 { background: #22d3ee; height: 16px; }
+        .bar-3 { background: #34d399; height: 19px; }
+        .bar-4 { background: #f87171; height: 22px; }
+        .bar-5 { background: #fb923c; height: 15px; }
+
+        .container { 
+            width: 100%; 
+            max-width: 700px; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            margin-bottom: 20px;
+        }
+
+        h2 { margin-bottom: 20px; color: #102a43; text-align: center; font-size: clamp(18px, 4vw, 24px); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        input:focus, select:focus { border-color: #25d366; outline: none; }
+        input[readonly] { background-color: #e9ecef; color: #495057; }
+
+        .error-msg { color: #d9534f; font-size: 12px; margin-top: 4px; display: none; }
+
+        .btn-whatsapp { 
+            background-color: #25d366; 
+            color: white; 
+            border: none; 
+            padding: 14px 20px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 20px; 
+            transition: background 0.3s; 
+        }
+        .btn-whatsapp:hover { background-color: #1ebd59; }
+
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header-bar">
+    <div class="header-icons">
+        <span class="bar-1"></span>
+        <span class="bar-2"></span>
+        <span class="bar-3"></span>
+        <span class="bar-4"></span>
+        <span class="bar-5"></span>
+    </div>
+    <span>Actualización de Datos – ManpowerGroup</span>
+</div>
+
+<div class="container">
+    <h2>Actualización de Datos de Colaborador</h2>
+
+    <div class="form-group">
+        <label for="documentoSelect">N. Documento: *</label>
+        <select id="documentoSelect">
+            <option value="">Seleccione un documento</option>
+        </select>
+        <div id="errDocumento" class="error-msg">Seleccione un documento válido.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="nombreInput">NOMBRE COMPLETO:</label>
+        <input type="text" id="nombreInput" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="cargoInput">CARGO (Último registro):</label>
+        <input type="text" id="cargoInput" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="regionalInput">REGIONAL:</label>
+        <input type="text" id="regionalInput" readonly>
+    </div>
+
+    <div class="form-group">
+        <label for="telefonoInput">Teléfono: *</label>
+        <input type="tel" id="telefonoInput" placeholder="Ingrese teléfono">
+        <div id="errTelefono" class="error-msg">Este campo es obligatorio.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="direccionInput">Dirección: *</label>
+        <input type="text" id="direccionInput" placeholder="Ingrese dirección">
+        <div id="errDireccion" class="error-msg">Este campo es obligatorio.</div>
+    </div>
+
+    <div class="form-group">
+        <label for="correoInput">Correo Electrónico: *</label>
+        <input type="email" id="correoInput" placeholder="Ingrese correo electrónico">
+        <div id="errCorreo" class="error-msg">Este campo es obligatorio.</div>
+    </div>
+
+    <button class="btn-whatsapp" id="btnEnviar">Enviar por WhatsApp</button>
+</div>
+
+<script>
+    const registrosData = {"1094938475": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS", "nombre": "AMADO LOZANO JHEINER ALBEIRO"}, "1037948290": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. FOOD", "nombre": "MAURICIO LADINO LARGO"}, "52860228": {"regional": "CENTRO - ORI", "cargo": "MERCADERISTA FOOD", "nombre": "CASTRILLON URREGO YEIMI PAOLA"}, "1018438044": {"regional": "CENTRO - ORI", "cargo": "DESARR. FOOD", "nombre": "ORJUELA FORIGUA HAYDE CAROLINA"}, "1048276830": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "CASTRO OROZCO CINDY PAOLA"}, "1010070556": {"regional": "CUENTAS CLAVES", "cargo": "DESARR. DE BEBIDAS KAM", "nombre": "KAREN TATIANA DE LA ROSA TORRES"}, "1072703990": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "MERCHAN SEGURA JOHN EDISON"}, "1234990099": {"regional": "ANTIOQUIA - COSTA", "cargo": "MERCADERISTA FOOD", "nombre": "MONTOYA BUITRAGO VANESA"}, "1023930172": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "FORERO VELASQUEZ EDWIN ALEXANDER"}, "93236326": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS", "nombre": "SIERRA PELAEZ RIGOBERTO"}, "1143341974": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "GONZALES BERRIO YEISON JOSE"}, "1003634117": {"regional": "CUENTAS CLAVES", "cargo": "DESARR. DE BEBIDAS KAM", "nombre": "MARIN GALEANO KEVIN SANTIAGO"}, "43753705": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "PATIÑO MONICA MARIA"}, "80220107": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "RAMIREZ SARAY SIGIFREDO"}, "1143360426": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. DOLCA", "nombre": "BARRERA DE AVILA KELLY JOHANA"}, "1042064101": {"regional": "CUENTAS CLAVES", "cargo": "DESARR. DE BEBIDAS KAM", "nombre": "ARDILA ORTEGA FABIANA"}, "1002183801": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "PADILLA GRAVIER JUAN CAMILO"}, "1095835233": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "GRIMALDO NAVARRO WILSON JAVIER"}, "43268846": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "OTALVARO METAUTE MONICA MILENA"}, "66771000": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS MIX", "nombre": "RESTREPO LUZ MARLENE"}, "1085248529": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS", "nombre": "ERAZO CAICEDO DIANA MARCELA"}, "1053783753": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS", "nombre": "CARMONA HUERTAS NESTOR ANDRES"}, "1121833139": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "BOCANEGRA GARZON CINDY JULIETH"}, "1022404439": {"regional": "CUENTAS CLAVES", "cargo": "DESARR. DE BEBIDAS KAM", "nombre": "GONZALEZ RODRIGUEZ MICHAEL"}, "1113661456": {"regional": "EJE - OCCIDENTE", "cargo": "DESARR. BEBIDAS MIX", "nombre": "RAMIREZ MORENO GERALDINE"}, "1015068243": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. DOLCA", "nombre": "HINCAPIE ZEA YOANA ANDREA"}, "1053334868": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS", "nombre": "JIMENEZ JIMENEZ ESNEYDI YELEYSI"}, "1020811447": {"regional": "CENTRO - ORI", "cargo": "DESARR. BEBIDAS MIX", "nombre": "BAQUERO MURCIA CRISTIAN CAMILO"}, "43161032": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "YEPES BETANCUR SHIRLEY"}, "1129535155": {"regional": "CUENTAS CLAVES", "cargo": "DESARR. DE BEBIDAS KAM", "nombre": "YARA PAOLA DE LA TORRE"}, "1130589169": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. FOOD", "nombre": "ELIECER ARDILA LUCIO"}, "43999574": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "SHEILA  DURANGO ESPINOZA"}, "1030671221": {"regional": "CENTRO - ORI", "cargo": "MERCADERISTA FOOD", "nombre": "TATIANA MARCELA CHISCO ALDANA"}, "1007332495": {"regional": "CENTRO - ORI", "cargo": "DESARR. FOOD", "nombre": "ANGELICA ARDILA QUINTERO"}, "1020487707": {"regional": "ANTIOQUIA - COSTA", "cargo": "DESARR. BEBIDAS", "nombre": "YESICA JARAMILLO GONZALEZ"}};
+
+    const selectDoc = document.getElementById('documentoSelect');
+
+    for (const doc in registrosData) {
+        const opt = document.createElement('option');
+        opt.value = doc;
+        opt.textContent = doc;
+        selectDoc.appendChild(opt);
+    }
+
+    selectDoc.addEventListener('change', function() {
+        const doc = this.value;
+        if (registrosData[doc]) {
+            document.getElementById('regionalInput').value = registrosData[doc].regional;
+            document.getElementById('cargoInput').value = registrosData[doc].cargo;
+            document.getElementById('nombreInput').value = registrosData[doc].nombre;
+        } else {
+            document.getElementById('regionalInput').value = '';
+            document.getElementById('cargoInput').value = '';
+            document.getElementById('nombreInput').value = '';
+        }
+    });
+
+    document.getElementById('btnEnviar').addEventListener('click', function() {
+        const documento = selectDoc.value;
+        const regional = document.getElementById('regionalInput').value;
+        const cargo = document.getElementById('cargoInput').value;
+        const nombre = document.getElementById('nombreInput').value;
+        const telefono = document.getElementById('telefonoInput').value.trim();
+        const direccion = document.getElementById('direccionInput').value.trim();
+        const correo = document.getElementById('correoInput').value.trim();
+
+        let isValid = true;
+
+        // Validar documento
+        if (!documento) {
+            document.getElementById('errDocumento').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('errDocumento').style.display = 'none';
+        }
+
+        // Validar teléfono
+        if (!telefono) {
+            document.getElementById('errTelefono').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('errTelefono').style.display = 'none';
+        }
+
+        // Validar dirección
+        if (!direccion) {
+            document.getElementById('errDireccion').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('errDireccion').style.display = 'none';
+        }
+
+        // Validar correo
+        if (!correo) {
+            document.getElementById('errCorreo').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('errCorreo').style.display = 'none';
+        }
+
+        if (!isValid) {
+            alert('Por favor complete todos los campos obligatorios antes de enviar.');
+            return;
+        }
+
+        const mensaje = `*ACTUALIZACIÓN DE DATOS - MANPOWERGROUP*%0A` +
+                        `----------------------------------%0A` +
+                        `*Regional:* ${regional}%0A` +
+                        `*Cargo:* ${cargo}%0A` +
+                        `*N. Documento:* ${documento}%0A` +
+                        `*Nombre Completo:* ${nombre}%0A` +
+                        `*Teléfono:* ${telefono}%0A` +
+                        `*Dirección:* ${direccion}%0A` +
+                        `*Correo Electrónico:* ${correo}`;
+
+        window.open(`https://api.whatsapp.com/send?text=${mensaje}`, '_blank');
+    });
+</script>
+
+</body>
+</html>
